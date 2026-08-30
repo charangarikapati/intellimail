@@ -33,14 +33,14 @@ class OAuthService:
         if not settings.GOOGLE_CLIENT_ID:
             return f"{settings.FRONTEND_URL}/?demo=true"
 
+        from urllib.parse import urlencode, quote
         scopes = [
-            "https://www.googleapis.com/auth/userinfo.email",
-            "https://www.googleapis.com/auth/userinfo.profile",
+            "email",
+            "profile",
             "https://www.googleapis.com/auth/gmail.modify",
             "https://www.googleapis.com/auth/gmail.send"
         ]
 
-        from urllib.parse import urlencode
         params = {
             "client_id": settings.GOOGLE_CLIENT_ID,
             "redirect_uri": settings.GOOGLE_REDIRECT_URI,
@@ -49,7 +49,7 @@ class OAuthService:
             "access_type": "offline",
             "prompt": "consent"
         }
-        return f"https://accounts.google.com/o/oauth2/v2/auth?{urlencode(params)}"
+        return f"https://accounts.google.com/o/oauth2/v2/auth?{urlencode(params, quote_via=quote)}"
 
     @staticmethod
     async def exchange_code_for_tokens(code: str) -> Optional[Dict[str, Any]]:
