@@ -10,7 +10,7 @@ class Settings:
 
     GOOGLE_CLIENT_ID: str = os.getenv("GOOGLE_CLIENT_ID", "")
     GOOGLE_CLIENT_SECRET: str = os.getenv("GOOGLE_CLIENT_SECRET", "")
-    GOOGLE_REDIRECT_URI: str = os.getenv("GOOGLE_REDIRECT_URI", "http://127.0.0.1:8000/auth/google/callback")
+    GOOGLE_REDIRECT_URI: str = os.getenv("GOOGLE_REDIRECT_URI", "https://intellimail-api-oy0x.onrender.com/auth/google/callback")
 
     # The deployed frontend URL — used in OAuth callback redirects
     FRONTEND_URL: str = os.getenv("FRONTEND_URL", "http://localhost:3000")
