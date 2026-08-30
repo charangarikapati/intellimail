@@ -107,7 +107,7 @@ export const LoginScreen = () => {
         padding: '40px 20px',
         zIndex: 10
       }}>
-        <div style={{
+        <div className="login-grid" style={{
           maxWidth: '1000px',
           width: '100%',
           display: 'grid',
@@ -133,7 +133,7 @@ export const LoginScreen = () => {
               <Sparkles size={13} /> Next-Generation Email Intelligence
             </div>
 
-            <h1 style={{
+            <h1 className="login-hero-title" style={{
               fontSize: '2.5rem',
               fontWeight: '800',
               lineHeight: '1.18',
@@ -157,7 +157,7 @@ export const LoginScreen = () => {
               Summarize long threads into instant decisions, generate context-aware replies with custom tones, snooze emails, and automate action items directly connected to your Gmail.
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '14px' }}>
               {features.map((feat, idx) => {
                 const Icon = feat.icon;
                 return (
@@ -182,7 +182,7 @@ export const LoginScreen = () => {
           </div>
 
           {/* Right Column: Sign In Card */}
-          <div style={{
+          <div className="login-card" style={{
             background: 'var(--bg-panel)',
             border: '1px solid var(--border-subtle)',
             borderRadius: 'var(--radius-md)',

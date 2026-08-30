@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Search, Sparkles, Settings, Sun, Moon, Mail, Keyboard, LogOut, ChevronDown, RefreshCw } from 'lucide-react';
+import { Search, Sparkles, Settings, Sun, Moon, Mail, Keyboard, LogOut, ChevronDown, RefreshCw, Menu } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-export const Navbar = ({ onSearch, onOpenBriefing, onOpenSettings, onOpenShortcuts, onRefresh }) => {
+export const Navbar = ({ onSearch, onOpenBriefing, onOpenSettings, onOpenShortcuts, onRefresh, onToggleSidebar }) => {
   const [query, setQuery] = useState('');
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const { user, isDemoMode, theme, toggleTheme, logout } = useAuth();
@@ -21,7 +21,7 @@ export const Navbar = ({ onSearch, onOpenBriefing, onOpenSettings, onOpenShortcu
     <header style={{
       height: '56px',
       borderBottom: '1px solid var(--border-subtle)',
-      padding: '0 20px',
+      padding: '0 16px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -31,27 +31,38 @@ export const Navbar = ({ onSearch, onOpenBriefing, onOpenSettings, onOpenShortcu
       zIndex: 100,
       transition: 'background-color 0.2s ease, border-color 0.2s ease'
     }}>
-      {/* Brand Logo */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '220px' }}>
-        <div style={{
-          width: '28px',
-          height: '28px',
-          borderRadius: '6px',
-          background: 'var(--primary)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#fff'
-        }}>
-          <Mail size={16} />
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-main)', letterSpacing: '-0.3px' }}>
-            IntelliMail
-          </span>
-          <span style={{ fontSize: '0.65rem', padding: '1px 6px', borderRadius: '4px', background: 'var(--primary-light)', color: 'var(--primary)', fontWeight: '600' }}>
-            AI Enterprise
-          </span>
+      {/* Brand Logo & Mobile Menu Toggle */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <button
+          onClick={onToggleSidebar}
+          className="btn-secondary"
+          style={{ padding: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          title="Toggle Navigation"
+        >
+          <Menu size={18} />
+        </button>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{
+            width: '28px',
+            height: '28px',
+            borderRadius: '6px',
+            background: 'var(--primary)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#fff'
+          }}>
+            <Mail size={16} />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--text-main)', letterSpacing: '-0.3px' }}>
+              IntelliMail
+            </span>
+            <span className="navbar-actions-text" style={{ fontSize: '0.65rem', padding: '1px 6px', borderRadius: '4px', background: 'var(--primary-light)', color: 'var(--primary)', fontWeight: '600' }}>
+              AI Enterprise
+            </span>
+          </div>
         </div>
       </div>
 

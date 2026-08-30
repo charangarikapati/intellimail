@@ -218,3 +218,74 @@ body {
 .animate-fade-in {
   animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* ── Responsive Design Rules ─────────────────────────────────────────────── */
+
+/* Mobile & Tablet Layout System */
+@media (max-width: 1024px) {
+  .sidebar-container {
+    width: 180px !important;
+  }
+  .login-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile Sidebar Off-Canvas */
+  .sidebar-container {
+    position: fixed !important;
+    top: 56px !important;
+    left: -260px !important;
+    width: 240px !important;
+    height: calc(100vh - 56px) !important;
+    z-index: 99 !important;
+    transition: left 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 10px 0 25px rgba(0, 0, 0, 0.5) !important;
+  }
+  .sidebar-container.mobile-open {
+    left: 0 !important;
+  }
+
+  /* Main Split View on Mobile */
+  .main-split {
+    flex-direction: column !important;
+  }
+  .email-list-panel {
+    width: 100% !important;
+    border-right: none !important;
+    display: flex !important;
+  }
+  .email-list-panel.mobile-hidden {
+    display: none !important;
+  }
+  .email-detail-panel {
+    width: 100% !important;
+    display: flex !important;
+  }
+  .email-detail-panel.mobile-hidden {
+    display: none !important;
+  }
+
+  /* Login Screen Mobile Adjustments */
+  .login-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  .login-hero-title {
+    font-size: 1.8rem !important;
+  }
+  .login-card {
+    padding: 24px 18px !important;
+  }
+
+  /* Navbar Search on Mobile */
+  .navbar-search {
+    max-width: 160px !important;
+  }
+  .navbar-actions-text {
+    display: none !important;
+  }
+}
+

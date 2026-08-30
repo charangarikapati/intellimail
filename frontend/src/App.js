@@ -18,6 +18,7 @@ function MainApp() {
   const [emails, setEmails] = useState([]);
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // Modals
   const [isComposeOpen, setIsComposeOpen] = useState(false);
@@ -37,9 +38,11 @@ function MainApp() {
       const data = await api.getEmails(cat);
       setEmails(data);
       if (data.length > 0 && !selectedEmail) {
-        // Select first inbox email
+        // Select first inbox email on desktop
         const inboxEmails = data.filter(m => !m.isDeleted && !m.isArchived && !m.isSnoozed);
-        setSelectedEmail(inboxEmails.length > 0 ? inboxEmails[0] : data[0]);
+        if (window.innerWidth > 768) {
+          setSelectedEmail(inboxEmails.length > 0 ? inboxEmails[0] : data[0]);
+        }
       }
     } catch (e) {
       console.error(e);
@@ -70,10 +73,12 @@ function MainApp() {
   // Switch selected email when active tab changes if selected email is not in active view
   useEffect(() => {
     const filtered = getFilteredEmails();
-    if (filtered.length > 0 && (!selectedEmail || !filtered.some(m => m.id === selectedEmail.id))) {
-      setSelectedEmail(filtered[0]);
-    } else if (filtered.length === 0) {
-      setSelectedEmail(null);
+    if (window.innerWidth > 768) {
+      if (filtered.length > 0 && (!selectedEmail || !filtered.some(m => m.id === selectedEmail.id))) {
+        setSelectedEmail(filtered[0]);
+      } else if (filtered.length === 0) {
+        setSelectedEmail(null);
+      }
     }
   }, [activeTab, emails]);
 
@@ -86,7 +91,7 @@ function MainApp() {
     setLoading(true);
     const results = await api.searchEmails(query);
     setEmails(results);
-    if (results.length > 0) setSelectedEmail(results[0]);
+    if (results.length > 0 && window.innerWidth > 768) setSelectedEmail(results[0]);
     setLoading(false);
   };
 

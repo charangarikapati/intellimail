@@ -21,7 +21,7 @@ const cleanBodyText = (text) => {
   return lines.join('\n\n');
 };
 
-export const EmailDetail = ({ email, onArchive, onDelete, onRestore, onOpenReply, onSnooze, onUnsnooze }) => {
+export const EmailDetail = ({ email, onArchive, onDelete, onRestore, onOpenReply, onSnooze, onUnsnooze, onBackToList }) => {
   const [aiLoading, setAiLoading] = useState(false);
   const [activeAiTab, setActiveAiTab] = useState(null);
   const [aiResult, setAiResult] = useState(null);
@@ -50,7 +50,7 @@ export const EmailDetail = ({ email, onArchive, onDelete, onRestore, onOpenReply
     const loadQuickReplies = async () => {
       setQuickRepliesLoading(true);
       try {
-        const res = await api.getQuickReplies(email.id, email.body);
+        const res = await api.getQuickReplies(email.id, email.body || email.snippet);
         if (isMounted && res?.options) {
           setQuickReplies(res.options);
         }
@@ -63,12 +63,31 @@ export const EmailDetail = ({ email, onArchive, onDelete, onRestore, onOpenReply
 
     loadQuickReplies();
     return () => { isMounted = false; };
-  }, [email?.id]);
+  }, [email]);
 
   if (!email) {
     return (
-      <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-dim)', fontSize: '0.88rem' }}>
-        Select a conversation to view details and AI actions.
+      <div style={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'var(--text-dim)',
+        gap: '12px',
+        padding: '20px'
+      }}>
+        <div style={{ padding: '16px', borderRadius: '50%', background: 'var(--bg-panel)', border: '1px solid var(--border-subtle)' }}>
+          <Sparkles size={28} color="var(--primary)" />
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <span style={{ fontSize: '0.95rem', fontWeight: '700', color: 'var(--text-main)', display: 'block' }}>
+            No Email Selected
+          </span>
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+            Select a message from the list to view full details and AI tools
+          </span>
+        </div>
       </div>
     );
   }
@@ -135,9 +154,16 @@ export const EmailDetail = ({ email, onArchive, onDelete, onRestore, onOpenReply
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: 'var(--bg-app)'
+        background: 'var(--bg-app)',
+        flexWrap: 'wrap',
+        gap: '10px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {onBackToList && (
+            <button className="btn-secondary" onClick={onBackToList} style={{ fontWeight: '700', color: 'var(--primary)' }}>
+              ← Back
+            </button>
+          )}
           {email.isDeleted ? (
             <button className="btn-secondary" onClick={() => onRestore(email.id)} style={{ color: 'var(--status-low)' }}>
               <RotateCcw size={14} /> Restore to Inbox

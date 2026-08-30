@@ -1,7 +1,7 @@
 import React from 'react';
 import { Inbox, Star, Send, Archive, Trash2, Plus, ShieldCheck, Clock } from 'lucide-react';
 
-export const Sidebar = ({ activeTab, setActiveTab, activeCategory, setActiveCategory, onOpenCompose, emails = [] }) => {
+export const Sidebar = ({ activeTab, setActiveTab, activeCategory, setActiveCategory, onOpenCompose, emails = [], isMobileOpen = false, onCloseMobile }) => {
   const inboxCount = emails.filter(m => !m.isDeleted && !m.isArchived && !m.isSnoozed).length;
   const starredCount = emails.filter(m => !m.isDeleted && m.isStarred && !m.isSnoozed).length;
   const snoozedCount = emails.filter(m => !m.isDeleted && m.isSnoozed).length;
@@ -25,19 +25,32 @@ export const Sidebar = ({ activeTab, setActiveTab, activeCategory, setActiveCate
     { id: 'important', label: 'Important', color: '#d97706' }
   ];
 
+  const handleSelectTab = (tabId) => {
+    setActiveTab(tabId);
+    if (onCloseMobile) onCloseMobile();
+  };
+
+  const handleSelectCategory = (catId) => {
+    setActiveCategory(catId);
+    if (onCloseMobile) onCloseMobile();
+  };
+
   return (
-    <aside style={{
-      width: '220px',
-      height: 'calc(100vh - 56px)',
-      background: 'var(--bg-sidebar)',
-      borderRight: '1px solid var(--border-subtle)',
-      padding: '16px 10px',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '20px',
-      flexShrink: 0,
-      transition: 'background-color 0.2s ease'
-    }}>
+    <aside
+      className={`sidebar-container ${isMobileOpen ? 'mobile-open' : ''}`}
+      style={{
+        width: '220px',
+        height: 'calc(100vh - 56px)',
+        background: 'var(--bg-sidebar)',
+        borderRight: '1px solid var(--border-subtle)',
+        padding: '16px 10px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
+        flexShrink: 0,
+        transition: 'background-color 0.2s ease'
+      }}
+    >
       {/* Compose Button */}
       <button className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '9px' }} onClick={onOpenCompose}>
         <Plus size={16} />
@@ -55,7 +68,7 @@ export const Sidebar = ({ activeTab, setActiveTab, activeCategory, setActiveCate
           return (
             <button
               key={item.id}
-              onClick={() => setActiveTab(item.id)}
+              onClick={() => handleSelectTab(item.id)}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -102,7 +115,7 @@ export const Sidebar = ({ activeTab, setActiveTab, activeCategory, setActiveCate
           return (
             <button
               key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
+              onClick={() => handleSelectCategory(cat.id)}
               style={{
                 display: 'flex',
                 alignItems: 'center',
