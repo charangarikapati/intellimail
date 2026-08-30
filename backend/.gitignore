@@ -16,17 +16,17 @@ venv/
 env/
 ENV/
 
-# ── Environment Secrets (NEVER commit these) ──────────────────────────────────
+# ── Environment & Secrets (NEVER commit ANY .env file) ───────────────────────
 .env
-# .env.production is a TEMPLATE (safe to commit) — but if it has real secrets, add it here
-# .env.production
+.env.*
+*.env
 
-# ── Firebase Service Account Key (contains private key — keep secret!) ────────
+# ── Firebase Service Account Key (private key — keep secret!) ────────────────
 serviceAccountKey.json
 firebase-key.json
 *.json.key
 
-# ── Session / Cache ───────────────────────────────────────────────────────────
+# ── Session / Token Cache ─────────────────────────────────────────────────────
 session_cache.json
 
 # ── Test / Coverage ───────────────────────────────────────────────────────────
