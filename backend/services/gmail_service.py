@@ -325,12 +325,12 @@ class GmailService:
                     print("[INFO] Synchronizing entire Inbox, Sent, Trash & Archive from Gmail API...")
                     headers = {"Authorization": f"Bearer {access_token}"}
 
-                    # Each query: (label, query_params) — inbox uses pagination for full sync
+                    # Optimize queries for lightning fast load (latest emails first)
                     queries = [
-                        ("inbox",   "q=in:inbox&maxResults=500"),
-                        ("sent",    "q=in:sent&maxResults=200"),
-                        ("trash",   "includeSpamTrash=true&q=in:trash&maxResults=100"),
-                        ("archive", "q=-in:inbox+-in:trash+-in:spam+-in:chats&maxResults=100"),
+                        ("inbox",   "q=in:inbox&maxResults=40"),
+                        ("sent",    "q=in:sent&maxResults=20"),
+                        ("trash",   "includeSpamTrash=true&q=in:trash&maxResults=10"),
+                        ("archive", "q=-in:inbox+-in:trash+-in:spam+-in:chats&maxResults=10"),
                     ]
 
                     all_msg_ids: List[str] = []
@@ -338,7 +338,7 @@ class GmailService:
 
                     for label, q_param in queries:
                         try:
-                            fetched_ids = GmailService._fetch_all_message_ids(q_param, headers)
+                            fetched_ids = GmailService._fetch_all_message_ids(q_param, headers, max_pages=1)
                             added = 0
                             for mid in fetched_ids:
                                 if mid not in seen_ids:

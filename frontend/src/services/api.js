@@ -6,7 +6,7 @@ const API_BASE = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_API_
 const client = axios.create({
   baseURL: API_BASE,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 15000
+  timeout: 45000
 });
 
 // Attach Authorization header if session token exists
