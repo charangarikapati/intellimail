@@ -9,10 +9,11 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configure CORS — origins are set via ALLOWED_ORIGINS env var (comma-separated)
+# Configure CORS — origins are set via ALLOWED_ORIGINS env var or regex matching *.vercel.app
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.ALLOWED_ORIGINS,
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
