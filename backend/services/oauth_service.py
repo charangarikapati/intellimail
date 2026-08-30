@@ -31,26 +31,25 @@ class OAuthService:
     def get_authorization_url() -> str:
         """Returns the Google OAuth 2.0 Login URL."""
         if not settings.GOOGLE_CLIENT_ID:
-            return "http://localhost:3000/?demo=true"
-            
+            return f"{settings.FRONTEND_URL}/?demo=true"
+
         scopes = [
             "https://www.googleapis.com/auth/userinfo.email",
             "https://www.googleapis.com/auth/userinfo.profile",
             "https://www.googleapis.com/auth/gmail.modify",
             "https://www.googleapis.com/auth/gmail.send"
         ]
-        
-        scope_str = "%20".join(scopes)
-        auth_url = (
-            "https://accounts.google.com/o/oauth2/v2/auth?"
-            f"client_id={settings.GOOGLE_CLIENT_ID}&"
-            f"redirect_uri={settings.GOOGLE_REDIRECT_URI}&"
-            "response_type=code&"
-            f"scope={scope_str}&"
-            "access_type=offline&"
-            "prompt=consent"
-        )
-        return auth_url
+
+        from urllib.parse import urlencode
+        params = {
+            "client_id": settings.GOOGLE_CLIENT_ID,
+            "redirect_uri": settings.GOOGLE_REDIRECT_URI,
+            "response_type": "code",
+            "scope": " ".join(scopes),
+            "access_type": "offline",
+            "prompt": "consent"
+        }
+        return f"https://accounts.google.com/o/oauth2/v2/auth?{urlencode(params)}"
 
     @staticmethod
     async def exchange_code_for_tokens(code: str) -> Optional[Dict[str, Any]]:
