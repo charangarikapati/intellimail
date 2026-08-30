@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — IntelliMail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+    header {
+      background: rgba(15,23,42,0.95);
+      border-bottom: 1px solid rgba(99,102,241,0.2);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .logo-box {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 2px 12px rgba(99,102,241,0.4);
+    }
+    .logo-text { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.3px; }
+    .logo-text span { color: #6366f1; }
+    .badge {
+      font-size: 0.68rem; font-weight: 700;
+      background: rgba(99,102,241,0.15);
+      color: #6366f1; border-radius: 4px;
+      padding: 2px 7px; margin-left: 6px;
+    }
+    main { max-width: 760px; margin: 48px auto; padding: 0 24px 80px; }
+    .page-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 14px; border-radius: 20px;
+      background: rgba(99,102,241,0.1);
+      border: 1px solid rgba(99,102,241,0.25);
+      color: #6366f1; font-size: 0.78rem; font-weight: 700;
+      margin-bottom: 20px;
+    }
+    h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.6px; margin-bottom: 8px; }
+    .updated { color: #64748b; font-size: 0.85rem; margin-bottom: 40px; }
+    h2 {
+      font-size: 1.1rem; font-weight: 700;
+      color: #c7d2fe; margin: 36px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(99,102,241,0.15);
+    }
+    p { color: #94a3b8; margin-bottom: 14px; }
+    ul { color: #94a3b8; padding-left: 20px; margin-bottom: 14px; }
+    ul li { margin-bottom: 6px; }
+    a { color: #6366f1; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .highlight-box {
+      background: rgba(99,102,241,0.08);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 10px; padding: 18px 22px;
+      margin: 20px 0;
+    }
+    .highlight-box p { color: #c7d2fe; margin: 0; font-weight: 500; }
+    footer {
+      text-align: center; padding: 24px;
+      color: #475569; font-size: 0.8rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 40px;
+    }
+    footer a { color: #6366f1; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-box">✉</div>
+  <div>
+    <span class="logo-text">Intelli<span>Mail</span></span>
+    <span class="badge">v2.0 PRO</span>
+  </div>
+</header>
+
+<main>
+  <div class="page-tag">📋 Legal</div>
+  <h1>Terms of Service</h1>
+  <p class="updated">Last updated: August 30, 2026</p>
+
+  <div class="highlight-box">
+    <p>📬 By using IntelliMail, you agree to these terms. IntelliMail is an AI-powered Gmail assistant — your emails stay on Google's servers, and we access them only with your explicit permission via Google OAuth 2.0.</p>
+  </div>
+
+  <h2>1. Acceptance of Terms</h2>
+  <p>By accessing or using IntelliMail ("the Service"), you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.</p>
+
+  <h2>2. Description of Service</h2>
+  <p>IntelliMail is an AI-powered email assistant that connects to your Google Gmail account to provide:</p>
+  <ul>
+    <li>Intelligent email summarization and organization</li>
+    <li>AI-generated reply drafts using Google Gemini</li>
+    <li>Email snoozing, archiving, and scheduling features</li>
+    <li>Smart inbox categorization and priority detection</li>
+  </ul>
+
+  <h2>3. Google Account Authorization</h2>
+  <p>To use IntelliMail, you must authorize access to your Gmail account via Google OAuth 2.0. By granting this authorization, you permit IntelliMail to:</p>
+  <ul>
+    <li>Read your Gmail messages and threads</li>
+    <li>Modify email labels (archive, star, mark read)</li>
+    <li>Send emails on your behalf when you initiate composition</li>
+    <li>Access your Google profile (name, email, photo)</li>
+  </ul>
+  <p>You can revoke this authorization at any time through <a href="https://myaccount.google.com/permissions" target="_blank">Google Account Permissions</a>.</p>
+
+  <h2>4. User Responsibilities</h2>
+  <p>You agree to:</p>
+  <ul>
+    <li>Use IntelliMail only for lawful purposes</li>
+    <li>Not attempt to reverse-engineer, hack, or exploit the Service</li>
+    <li>Not use the Service to send spam, phishing emails, or any malicious content</li>
+    <li>Keep your Google account secure and enable 2-factor authentication</li>
+    <li>Be solely responsible for emails composed and sent through IntelliMail</li>
+  </ul>
+
+  <h2>5. AI-Generated Content</h2>
+  <p>IntelliMail uses Google Gemini AI to generate email summaries, replies, and action items. You acknowledge that:</p>
+  <ul>
+    <li>AI-generated content may not always be accurate</li>
+    <li>You are responsible for reviewing AI-generated content before sending</li>
+    <li>IntelliMail is not liable for any consequences arising from AI-generated content you choose to send</li>
+  </ul>
+
+  <h2>6. Privacy</h2>
+  <p>Your use of the Service is also governed by our <a href="/privacy">Privacy Policy</a>, which is incorporated into these Terms by reference.</p>
+
+  <h2>7. Intellectual Property</h2>
+  <p>IntelliMail and its original content, features, and functionality are owned by the IntelliMail team and are protected by applicable intellectual property laws. You may not copy, modify, or distribute the Service without explicit written permission.</p>
+
+  <h2>8. Disclaimer of Warranties</h2>
+  <p>The Service is provided "AS IS" without warranties of any kind, express or implied. We do not warrant that the Service will be error-free, uninterrupted, or that defects will be corrected. Use the Service at your own risk.</p>
+
+  <h2>9. Limitation of Liability</h2>
+  <p>To the fullest extent permitted by law, IntelliMail shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the Service, including but not limited to loss of data, revenue, or business opportunities.</p>
+
+  <h2>10. Service Availability</h2>
+  <p>We reserve the right to modify, suspend, or discontinue the Service at any time without notice. We are not liable for any loss resulting from such modifications or discontinuation.</p>
+
+  <h2>11. Changes to Terms</h2>
+  <p>We reserve the right to update these Terms at any time. Continued use of the Service after changes constitutes acceptance of the revised Terms. We will notify users of significant changes when possible.</p>
+
+  <h2>12. Governing Law</h2>
+  <p>These Terms shall be governed by and construed in accordance with applicable law. Any disputes arising from these Terms shall be resolved through good-faith negotiation.</p>
+
+  <h2>13. Contact</h2>
+  <p>For questions about these Terms, please contact: <a href="mailto:support@intellimail.app">support@intellimail.app</a></p>
+</main>
+
+<footer>
+  <p>IntelliMail v2.0 &nbsp;•&nbsp; <a href="/privacy">Privacy Policy</a> &nbsp;•&nbsp; <a href="/">Back to App</a></p>
+</footer>
+
+</body>
+</html>

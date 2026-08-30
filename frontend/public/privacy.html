@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — IntelliMail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+    header {
+      background: rgba(15,23,42,0.95);
+      border-bottom: 1px solid rgba(99,102,241,0.2);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .logo-box {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 2px 12px rgba(99,102,241,0.4);
+    }
+    .logo-text { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.3px; }
+    .logo-text span { color: #6366f1; }
+    .badge {
+      font-size: 0.68rem; font-weight: 700;
+      background: rgba(99,102,241,0.15);
+      color: #6366f1; border-radius: 4px;
+      padding: 2px 7px; margin-left: 6px;
+    }
+    main { max-width: 760px; margin: 48px auto; padding: 0 24px 80px; }
+    .page-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 14px; border-radius: 20px;
+      background: rgba(99,102,241,0.1);
+      border: 1px solid rgba(99,102,241,0.25);
+      color: #6366f1; font-size: 0.78rem; font-weight: 700;
+      margin-bottom: 20px;
+    }
+    h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.6px; margin-bottom: 8px; }
+    .updated { color: #64748b; font-size: 0.85rem; margin-bottom: 40px; }
+    h2 {
+      font-size: 1.1rem; font-weight: 700;
+      color: #c7d2fe; margin: 36px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(99,102,241,0.15);
+    }
+    p { color: #94a3b8; margin-bottom: 14px; }
+    ul { color: #94a3b8; padding-left: 20px; margin-bottom: 14px; }
+    ul li { margin-bottom: 6px; }
+    a { color: #6366f1; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .highlight-box {
+      background: rgba(99,102,241,0.08);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 10px; padding: 18px 22px;
+      margin: 20px 0;
+    }
+    .highlight-box p { color: #c7d2fe; margin: 0; font-weight: 500; }
+    footer {
+      text-align: center; padding: 24px;
+      color: #475569; font-size: 0.8rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 40px;
+    }
+    footer a { color: #6366f1; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-box">✉</div>
+  <div>
+    <span class="logo-text">Intelli<span>Mail</span></span>
+    <span class="badge">v2.0 PRO</span>
+  </div>
+</header>
+
+<main>
+  <div class="page-tag">🔒 Legal</div>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: August 30, 2026</p>
+
+  <div class="highlight-box">
+    <p>🔐 IntelliMail connects to your Gmail using Google OAuth 2.0. We never store your emails on our servers. All email data is fetched directly from Google's servers in real time and processed in-memory only.</p>
+  </div>
+
+  <h2>1. Information We Collect</h2>
+  <p>When you sign in with Google, IntelliMail receives the following information from Google's OAuth 2.0 service:</p>
+  <ul>
+    <li>Your Google account name and email address</li>
+    <li>Your Google profile picture URL</li>
+    <li>An OAuth access token to read and manage your Gmail on your behalf</li>
+  </ul>
+  <p>We do <strong>not</strong> collect passwords, payment information, or any data beyond what is listed above.</p>
+
+  <h2>2. How We Use Your Information</h2>
+  <p>Your data is used exclusively to provide the IntelliMail service:</p>
+  <ul>
+    <li><strong>Gmail Access</strong>: Reading, organizing, and searching your emails via the Gmail API</li>
+    <li><strong>AI Features</strong>: Email content is sent to Google Gemini AI for summarization and reply generation. This is processed in real-time and not stored</li>
+    <li><strong>Session Management</strong>: Your session token is stored in your browser's localStorage to keep you signed in</li>
+  </ul>
+
+  <h2>3. Data Storage & Retention</h2>
+  <p>IntelliMail follows a minimal-data philosophy:</p>
+  <ul>
+    <li>Email content is <strong>never stored</strong> in our database</li>
+    <li>Your OAuth access token is held in-memory only for the duration of your session</li>
+    <li>Basic account metadata (name, email, user ID) may be stored in Firestore solely for session management</li>
+    <li>You can revoke IntelliMail's access at any time via <a href="https://myaccount.google.com/permissions" target="_blank">Google Account Permissions</a></li>
+  </ul>
+
+  <h2>4. Third-Party Services</h2>
+  <p>IntelliMail integrates with the following third-party services, each governed by their own privacy policies:</p>
+  <ul>
+    <li><a href="https://policies.google.com/privacy" target="_blank">Google Gmail API</a> — email access</li>
+    <li><a href="https://ai.google.dev/terms" target="_blank">Google Gemini AI</a> — AI summarization and reply generation</li>
+    <li><a href="https://firebase.google.com/support/privacy" target="_blank">Google Firebase / Firestore</a> — session storage</li>
+  </ul>
+
+  <h2>5. Data Sharing</h2>
+  <p>We do <strong>not</strong> sell, trade, or share your personal data with any third parties for advertising or marketing purposes. Your data is never shared outside the services listed above.</p>
+
+  <h2>6. Security</h2>
+  <p>We implement industry-standard security practices including OAuth 2.0 token encryption, HTTPS-only connections, and server-side session validation. However, no system is 100% secure — please use strong Google account security (2FA recommended).</p>
+
+  <h2>7. Your Rights</h2>
+  <ul>
+    <li><strong>Access</strong>: You can view what data we hold by contacting us</li>
+    <li><strong>Deletion</strong>: You can request account deletion at any time</li>
+    <li><strong>Revocation</strong>: Revoke Gmail access at <a href="https://myaccount.google.com/permissions" target="_blank">myaccount.google.com/permissions</a></li>
+  </ul>
+
+  <h2>8. Children's Privacy</h2>
+  <p>IntelliMail is not directed at children under 13. We do not knowingly collect personal information from children under 13.</p>
+
+  <h2>9. Changes to This Policy</h2>
+  <p>We may update this Privacy Policy periodically. Continued use of IntelliMail after changes constitutes acceptance of the revised policy.</p>
+
+  <h2>10. Contact Us</h2>
+  <p>For privacy-related questions or data deletion requests, please contact us at: <a href="mailto:support@intellimail.app">support@intellimail.app</a></p>
+</main>
+
+<footer>
+  <p>IntelliMail v2.0 &nbsp;•&nbsp; <a href="/terms">Terms of Service</a> &nbsp;•&nbsp; <a href="/">Back to App</a></p>
+</footer>
+
+</body>
+</html>

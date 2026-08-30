@@ -1,0 +1,42 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+.eggs/
+
+# ── Virtual Environments ──────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ── Environment Secrets (NEVER commit these) ──────────────────────────────────
+.env
+# .env.production is a TEMPLATE (safe to commit) — but if it has real secrets, add it here
+# .env.production
+
+# ── Firebase Service Account Key (contains private key — keep secret!) ────────
+serviceAccountKey.json
+firebase-key.json
+*.json.key
+
+# ── Session / Cache ───────────────────────────────────────────────────────────
+session_cache.json
+
+# ── Test / Coverage ───────────────────────────────────────────────────────────
+.pytest_cache/
+htmlcov/
+.coverage
+*.cover
+
+# ── IDE / OS ──────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.DS_Store
+Thumbs.db

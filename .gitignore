@@ -1,0 +1,7 @@
+# Root-level gitignore
+.venv/
+venv/
+*.DS_Store
+Thumbs.db
+.idea/
+.vscode/
