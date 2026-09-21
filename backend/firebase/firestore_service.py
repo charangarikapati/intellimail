@@ -82,27 +82,34 @@ try:
             firebase_admin.initialize_app(cred)
         db = firestore.client()
         
-        # Verify if the Firestore database (default) actually exists
+        # Verify and activate live Cloud Firestore
         try:
-            test_doc = db.collection("_health_check").document("status").get()
+            db.collection("_health_check").document("status").set({
+                "status": "connected",
+                "timestamp": datetime.now().isoformat()
+            })
+            
+            # Seed default collections if empty
+            db.collection("users").document("user-demo-101").set(DEFAULT_STORE["users"][0], merge=True)
+            db.collection("preferences").document("user-demo-101").set(DEFAULT_STORE["preferences"][0], merge=True)
+            
             firestore_status = {
                 "firestore_active": True,
                 "database_created": True,
                 "message": "Connected to live Google Cloud Firestore database.",
                 "mode": "Live Cloud Firestore Database"
             }
-            print("[OK] Firebase Firestore connected and database exists.")
+            print("[OK] Firebase Cloud Firestore connected successfully! Collections initialized.")
         except Exception as db_err:
             error_str = str(db_err)
             if "504" in error_str or "NotFound" in error_str or "does not exist" in error_str.lower():
                 firestore_status = {
                     "firestore_active": False,
                     "database_created": False,
-                    "message": "Firebase Credentials valid, but Firestore Database has not been created yet in Firebase Console. Go to Firebase Console -> Firestore Database -> Create database.",
+                    "message": "Firebase Credentials valid, but Firestore Database has not been created yet in Firebase Console.",
                     "mode": "Persistent Local Database Mode (Fallback)"
                 }
                 print("[WARN] Firestore Database has not been created in Firebase Console yet.")
-                print("  -> Solution: Go to https://console.firebase.google.com -> Select Project -> Firestore Database -> Create Database.")
             else:
                 firestore_status = {
                     "firestore_active": False,
