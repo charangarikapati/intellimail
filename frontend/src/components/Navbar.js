@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Sparkles, Settings, Sun, Moon, Mail, Keyboard, LogOut, ChevronDown, RefreshCw, Menu } from 'lucide-react';
+import { Search, Sparkles, Settings, Sun, Moon, Keyboard, LogOut, ChevronDown, RefreshCw, Menu, SlidersHorizontal, HelpCircle, Grid } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const Navbar = ({ onSearch, onOpenBriefing, onOpenSettings, onOpenShortcuts, onRefresh, onToggleSidebar }) => {
@@ -19,8 +19,7 @@ export const Navbar = ({ onSearch, onOpenBriefing, onOpenSettings, onOpenShortcu
 
   return (
     <header style={{
-      height: '56px',
-      borderBottom: '1px solid var(--border-subtle)',
+      height: '64px',
       padding: '0 16px',
       display: 'flex',
       alignItems: 'center',
@@ -29,151 +28,225 @@ export const Navbar = ({ onSearch, onOpenBriefing, onOpenSettings, onOpenShortcu
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      transition: 'background-color 0.2s ease, border-color 0.2s ease'
+      transition: 'background-color 0.2s ease'
     }}>
       {/* Brand Logo & Mobile Menu Toggle */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: '220px' }}>
         <button
           onClick={onToggleSidebar}
-          className="btn-secondary"
-          style={{ padding: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          title="Toggle Navigation"
-        >
-          <Menu size={18} />
-        </button>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{
-            width: '28px',
-            height: '28px',
-            borderRadius: '6px',
-            background: 'var(--primary)',
+          style={{
+            background: 'none',
+            border: 'none',
+            padding: '10px',
+            borderRadius: '50%',
+            cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#fff'
-          }}>
-            <Mail size={16} />
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--text-main)', letterSpacing: '-0.3px' }}>
-              IntelliMail
+            color: 'var(--text-secondary)'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-card-hover)'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+          title="Main menu"
+        >
+          <Menu size={20} />
+        </button>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+          {/* Authentic Gmail Multi-Color / Red M Envelope Icon */}
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+            <path d="M1.5 5.25L12 12.75L22.5 5.25" stroke="#EA4335" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+            <rect x="2" y="4" width="20" height="16" rx="3" stroke="#4285F4" strokeWidth="2"/>
+            <path d="M2 18L8.5 13" stroke="#FBBC05" strokeWidth="2" strokeLinecap="round"/>
+            <path d="M22 18L15.5 13" stroke="#34A853" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+            <span style={{ fontSize: '1.35rem', fontWeight: '500', color: 'var(--text-main)', letterSpacing: '-0.4px', fontFamily: 'var(--font-gmail)' }}>
+              Gmail
             </span>
-            <span className="navbar-actions-text" style={{ fontSize: '0.65rem', padding: '1px 6px', borderRadius: '4px', background: 'var(--primary-light)', color: 'var(--primary)', fontWeight: '600' }}>
-              AI Enterprise
+            <span style={{ fontSize: '0.72rem', fontWeight: '700', color: 'var(--primary)', letterSpacing: '0.2px' }}>
+              IntelliMail AI
             </span>
           </div>
         </div>
       </div>
 
-      {/* Search Input */}
-      <form onSubmit={handleSearchSubmit} style={{ flex: '1', maxWidth: '560px', position: 'relative' }}>
-        <Search size={15} color="var(--text-muted)" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search mailbox or ask AI (e.g., 'internship deadline', 'from:professor')..."
-          style={{
-            width: '100%',
-            padding: '8px 14px 8px 38px',
-            borderRadius: '6px',
-            background: 'var(--bg-input)',
-            border: '1px solid var(--border-subtle)',
-            color: 'var(--text-main)',
-            fontSize: '0.84rem',
-            outline: 'none',
-            transition: 'border-color 0.15s ease'
-          }}
-          onFocus={(e) => e.target.style.borderColor = 'var(--border-focus)'}
-          onBlur={(e) => e.target.style.borderColor = 'var(--border-subtle)'}
-        />
+      {/* Gmail Search Pill Bar */}
+      <form onSubmit={handleSearchSubmit} style={{ flex: '1', maxWidth: '720px', margin: '0 16px', position: 'relative' }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          background: 'var(--bg-input)',
+          borderRadius: '28px',
+          padding: '0 16px',
+          height: '46px',
+          transition: 'all 0.15s ease',
+          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.06)'
+        }}
+        onFocus={(e) => e.currentTarget.style.background = 'var(--bg-input-focus)'}
+        >
+          <button type="submit" style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', color: 'var(--text-dim)', paddingRight: '12px' }}>
+            <Search size={18} />
+          </button>
+
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search mail or ask Gemini (e.g. 'interview status', 'from:professor')"
+            style={{
+              flex: '1',
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--text-main)',
+              fontSize: '0.92rem',
+              fontFamily: 'var(--font-gmail)',
+              outline: 'none'
+            }}
+          />
+
+          <button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', color: 'var(--text-dim)', paddingLeft: '8px' }} title="Search options">
+            <SlidersHorizontal size={18} />
+          </button>
+        </div>
       </form>
 
-      {/* Right Controls */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        {/* Status Badge */}
+      {/* Gmail Right Header Controls */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        {/* Sync Status Badge */}
         <div style={{
-          padding: '4px 8px',
-          borderRadius: '4px',
-          background: isDemoMode ? 'rgba(245, 158, 11, 0.1)' : 'rgba(16, 185, 129, 0.1)',
-          border: isDemoMode ? '1px solid rgba(245, 158, 11, 0.25)' : '1px solid rgba(16, 185, 129, 0.25)',
+          padding: '4px 10px',
+          borderRadius: '16px',
+          background: isDemoMode ? 'rgba(217, 119, 6, 0.12)' : 'rgba(20, 108, 46, 0.12)',
           color: isDemoMode ? 'var(--status-medium)' : 'var(--status-low)',
-          fontSize: '0.72rem',
+          fontSize: '0.74rem',
           fontWeight: '600',
           display: 'flex',
           alignItems: 'center',
-          gap: '5px'
+          gap: '6px'
         }}>
-          <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: isDemoMode ? 'var(--status-medium)' : 'var(--status-low)' }} />
-          {isDemoMode ? 'Demo Mode' : 'Gmail Live Sync'}
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: isDemoMode ? 'var(--status-medium)' : 'var(--status-low)' }} />
+          {isDemoMode ? 'Demo Mode' : 'Live Sync'}
         </div>
 
-        {/* Live Sync / Refresh Button */}
+        {/* Sync Button */}
         <button
-          className="btn-secondary"
-          style={{ padding: '6px 10px' }}
           onClick={onRefresh}
-          title="Synchronize Live Gmail Inbox"
+          style={{
+            background: 'none',
+            border: 'none',
+            padding: '8px',
+            borderRadius: '50%',
+            cursor: 'pointer',
+            color: 'var(--text-secondary)',
+            display: 'flex'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-card-hover)'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+          title="Sync Inbox"
         >
-          <RefreshCw size={14} />
-          <span style={{ fontSize: '0.78rem' }}>Sync</span>
+          <RefreshCw size={18} />
         </button>
 
-        {/* AI Briefing Button */}
-        <button className="btn-ai-pill" onClick={onOpenBriefing}>
+        {/* AI Briefing Pill */}
+        <button className="btn-ai-pill" onClick={onOpenBriefing} style={{ margin: '0 4px' }}>
           <Sparkles size={14} color="var(--primary)" />
-          <span>AI Briefing</span>
+          <span>Gemini Briefing</span>
         </button>
 
-        {/* Keyboard Shortcuts Cheatsheet Button */}
+        {/* Help Icon */}
         <button
-          className="btn-secondary"
-          style={{ padding: '6px 10px' }}
           onClick={onOpenShortcuts}
-          title="Keyboard Shortcuts (?)"
+          style={{
+            background: 'none',
+            border: 'none',
+            padding: '8px',
+            borderRadius: '50%',
+            cursor: 'pointer',
+            color: 'var(--text-secondary)',
+            display: 'flex'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-card-hover)'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+          title="Support & Keyboard Shortcuts (?)"
         >
-          <Keyboard size={15} />
+          <HelpCircle size={20} />
         </button>
 
-        {/* Dark / Light Theme Toggle Button */}
+        {/* Settings Icon */}
         <button
-          className="btn-secondary"
-          style={{ padding: '6px 10px' }}
-          onClick={toggleTheme}
-          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          onClick={onOpenSettings}
+          style={{
+            background: 'none',
+            border: 'none',
+            padding: '8px',
+            borderRadius: '50%',
+            cursor: 'pointer',
+            color: 'var(--text-secondary)',
+            display: 'flex'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-card-hover)'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+          title="Settings"
         >
-          {theme === 'dark' ? <Sun size={15} color="#d97706" /> : <Moon size={15} color="#4f46e5" />}
+          <Settings size={20} />
         </button>
 
-        {/* Settings Button */}
-        <button className="btn-secondary" style={{ padding: '6px 10px' }} onClick={onOpenSettings} title="Settings">
-          <Settings size={15} />
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          style={{
+            background: 'none',
+            border: 'none',
+            padding: '8px',
+            borderRadius: '50%',
+            cursor: 'pointer',
+            color: 'var(--text-secondary)',
+            display: 'flex'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-card-hover)'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+          title={theme === 'dark' ? 'Light Theme' : 'Dark Theme'}
+        >
+          {theme === 'dark' ? <Sun size={20} color="#fcd34d" /> : <Moon size={20} color="#0b57d0" />}
         </button>
 
-        {/* User Profile & Sign Out Dropdown */}
-        <div style={{ position: 'relative' }}>
+        {/* Google Apps 9-Dot Grid Icon */}
+        <button
+          style={{
+            background: 'none',
+            border: 'none',
+            padding: '8px',
+            borderRadius: '50%',
+            cursor: 'pointer',
+            color: 'var(--text-secondary)',
+            display: 'flex'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-card-hover)'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+          title="Google apps"
+        >
+          <Grid size={20} />
+        </button>
+
+        {/* User Profile Avatar Dropdown */}
+        <div style={{ position: 'relative', marginLeft: '4px' }}>
           <button
             onClick={() => setIsProfileOpen(!isProfileOpen)}
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '4px 8px',
-              borderRadius: 'var(--radius-sm)',
-              background: isProfileOpen ? 'var(--primary-light)' : 'transparent',
+              background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: 'var(--text-main)'
+              padding: '2px',
+              borderRadius: '50%',
+              display: 'flex'
             }}
           >
             <img
               src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80'}
               alt={user?.name || 'User'}
-              style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover' }}
+              style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', border: '1px solid var(--border-subtle)' }}
             />
-            <span style={{ fontSize: '0.82rem', fontWeight: '600' }}>{user?.name?.split(' ')[0] || 'Account'}</span>
-            <ChevronDown size={13} color="var(--text-muted)" />
           </button>
 
           {isProfileOpen && (
@@ -182,17 +255,22 @@ export const Navbar = ({ onSearch, onOpenBriefing, onOpenSettings, onOpenShortcu
               top: '100%',
               right: 0,
               marginTop: '8px',
-              width: '220px',
+              width: '240px',
               background: 'var(--bg-panel)',
               border: '1px solid var(--border-subtle)',
-              borderRadius: 'var(--radius-sm)',
+              borderRadius: '16px',
               boxShadow: 'var(--shadow-modal)',
               zIndex: 200,
               overflow: 'hidden'
             }} className="animate-fade-in">
-              <div style={{ padding: '10px 12px', borderBottom: '1px solid var(--border-subtle)' }}>
-                <div style={{ fontSize: '0.82rem', fontWeight: '700', color: 'var(--text-main)' }}>{user?.name || 'User'}</div>
-                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user?.email || 'user@gmail.com'}</div>
+              <div style={{ padding: '14px', borderBottom: '1px solid var(--border-subtle)', textAlign: 'center' }}>
+                <img
+                  src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80'}
+                  alt={user?.name || 'User'}
+                  style={{ width: '48px', height: '48px', borderRadius: '50%', marginBottom: '6px' }}
+                />
+                <div style={{ fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-main)' }}>{user?.name || 'User'}</div>
+                <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>{user?.email || 'user@gmail.com'}</div>
               </div>
 
               <button
@@ -200,22 +278,22 @@ export const Navbar = ({ onSearch, onOpenBriefing, onOpenSettings, onOpenShortcu
                 style={{
                   width: '100%',
                   textAlign: 'left',
-                  padding: '9px 12px',
+                  padding: '12px 16px',
                   background: 'none',
                   border: 'none',
                   color: 'var(--status-high)',
-                  fontSize: '0.78rem',
+                  fontSize: '0.82rem',
                   fontWeight: '600',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px'
+                  gap: '10px'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(244, 63, 94, 0.1)'}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(179, 38, 30, 0.08)'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
               >
-                <LogOut size={14} />
-                <span>Sign Out / Switch Account</span>
+                <LogOut size={16} />
+                <span>Sign Out of Account</span>
               </button>
             </div>
           )}

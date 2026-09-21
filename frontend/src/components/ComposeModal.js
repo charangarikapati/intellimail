@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Send, Sparkles, Wand2, Scissors, Maximize2, Briefcase, Smile, Undo2, Clock, ChevronDown } from 'lucide-react';
+import { X, Send, Sparkles, Wand2, Scissors, Maximize2, Briefcase, Smile, Undo2, ChevronDown, Paperclip, Link2, Image, Lock, Trash2, Minus, Maximize, ChevronUp } from 'lucide-react';
 import { api } from '../services/api';
 
 export const ComposeModal = ({ isOpen, onClose, onEmailSent, initialDraft = '', initialTo = '', initialSubject = '' }) => {
@@ -11,6 +11,7 @@ export const ComposeModal = ({ isOpen, onClose, onEmailSent, initialDraft = '', 
   const [aiTransforming, setAiTransforming] = useState(false);
   const [previousDrafts, setPreviousDrafts] = useState([]);
   const [showScheduleMenu, setShowScheduleMenu] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   useEffect(() => {
     setBody(initialDraft);
@@ -18,6 +19,7 @@ export const ComposeModal = ({ isOpen, onClose, onEmailSent, initialDraft = '', 
     if (initialSubject) setSubject(initialSubject);
     setPreviousDrafts([]);
     setShowScheduleMenu(false);
+    setIsMinimized(false);
   }, [initialDraft, initialTo, initialSubject, isOpen]);
 
   if (!isOpen) return null;
@@ -79,314 +81,209 @@ export const ComposeModal = ({ isOpen, onClose, onEmailSent, initialDraft = '', 
   return (
     <div style={{
       position: 'fixed',
-      inset: 0,
-      background: 'rgba(0, 0, 0, 0.5)',
-      backdropFilter: 'blur(4px)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      bottom: 0,
+      right: '60px',
+      width: '580px',
+      height: isMinimized ? '44px' : '540px',
+      background: 'var(--bg-panel)',
+      borderTopLeftRadius: '16px',
+      borderTopRightRadius: '16px',
+      boxShadow: 'var(--shadow-compose)',
       zIndex: 1000,
-      padding: '16px'
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden',
+      border: '1px solid var(--border-subtle)',
+      transition: 'height 0.2s ease'
     }} className="animate-fade-in">
+      
+      {/* Gmail Window Header Bar */}
       <div style={{
-        width: '100%',
-        maxWidth: '680px',
-        background: 'var(--bg-panel)',
-        border: '1px solid var(--border-subtle)',
-        borderRadius: 'var(--radius-md)',
+        height: '44px',
+        padding: '0 16px',
+        background: 'var(--bg-input)',
         display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-        boxShadow: 'var(--shadow-modal)'
-      }}>
-        {/* Header */}
-        <div style={{
-          padding: '12px 18px',
-          borderBottom: '1px solid var(--border-subtle)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          background: 'var(--bg-header)'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Sparkles size={16} color="var(--primary)" />
-            <h3 style={{ fontSize: '0.92rem', fontWeight: '700', color: 'var(--text-main)' }}>Compose & AI Draft Review</h3>
-          </div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-dim)', cursor: 'pointer' }}>
-            <X size={18} />
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        cursor: 'pointer',
+        userSelect: 'none'
+      }}
+      onClick={() => setIsMinimized(!isMinimized)}
+      >
+        <span style={{ fontSize: '0.88rem', fontWeight: '700', color: 'var(--text-main)', fontFamily: 'var(--font-gmail)' }}>
+          {subject ? subject : 'New Message'}
+        </span>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setIsMinimized(!isMinimized); }}
+            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex' }}
+          >
+            {isMinimized ? <ChevronUp size={16} /> : <Minus size={16} />}
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onClose(); }}
+            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex' }}
+          >
+            <X size={16} />
           </button>
         </div>
+      </div>
 
-        {/* Tone Selector Bar */}
-        <div style={{
-          padding: '8px 18px',
-          background: 'var(--bg-app)',
-          borderBottom: '1px solid var(--border-subtle)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          fontSize: '0.8rem'
-        }}>
-          <span style={{ color: 'var(--text-muted)', fontWeight: '500' }}>Active Tone:</span>
-          <div style={{ display: 'flex', gap: '6px' }}>
-            {['Professional', 'Friendly', 'Formal', 'Concise'].map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setTone(t)}
-                style={{
-                  padding: '3px 8px',
-                  borderRadius: '4px',
-                  border: tone === t ? '1px solid var(--primary)' : '1px solid var(--border-subtle)',
-                  background: tone === t ? 'var(--primary-light)' : 'transparent',
-                  color: tone === t ? 'var(--primary)' : 'var(--text-dim)',
-                  fontSize: '0.75rem',
-                  cursor: 'pointer',
-                  fontWeight: tone === t ? '600' : '400'
-                }}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-
-          {previousDrafts.length > 0 && (
-            <button
-              type="button"
-              onClick={handleUndo}
-              className="btn-secondary"
-              style={{ padding: '3px 8px', fontSize: '0.75rem' }}
-              title="Undo last AI transformation"
-            >
-              <Undo2 size={12} /> Undo
-            </button>
-          )}
-        </div>
-
-        {/* Form Body */}
-        <form onSubmit={handleSend} style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <div>
-            <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '4px' }}>To</label>
+      {!isMinimized && (
+        <form onSubmit={handleSend} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          {/* Recipient Input */}
+          <div style={{ padding: '4px 16px', borderBottom: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center' }}>
+            <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)', width: '60px' }}>To</span>
             <input
               type="email"
               required
               value={to}
               onChange={(e) => setTo(e.target.value)}
-              placeholder="recipient@example.com"
+              placeholder="Recipients"
               style={{
-                width: '100%',
-                padding: '8px 12px',
-                borderRadius: 'var(--radius-sm)',
-                background: 'var(--bg-input)',
-                border: '1px solid var(--border-subtle)',
+                flex: 1,
+                padding: '8px 0',
+                background: 'transparent',
+                border: 'none',
                 color: 'var(--text-main)',
                 outline: 'none',
-                fontSize: '0.85rem'
+                fontSize: '0.88rem',
+                fontFamily: 'var(--font-gmail)'
               }}
             />
           </div>
 
-          <div>
-            <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '4px' }}>Subject</label>
+          {/* Subject Input */}
+          <div style={{ padding: '4px 16px', borderBottom: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center' }}>
             <input
               type="text"
               required
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              placeholder="Subject line..."
+              placeholder="Subject"
               style={{
                 width: '100%',
-                padding: '8px 12px',
-                borderRadius: 'var(--radius-sm)',
-                background: 'var(--bg-input)',
-                border: '1px solid var(--border-subtle)',
+                padding: '8px 0',
+                background: 'transparent',
+                border: 'none',
                 color: 'var(--text-main)',
                 outline: 'none',
-                fontSize: '0.85rem'
+                fontSize: '0.88rem',
+                fontFamily: 'var(--font-gmail)'
               }}
             />
           </div>
 
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-              <label style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                Message Body (Review & Edit Before Sending)
-              </label>
-              {aiTransforming && (
-                <span style={{ fontSize: '0.74rem', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Sparkles size={12} className="animate-spin" /> AI Modifying Text...
-                </span>
-              )}
+          {/* Gemini Refine Pill Bar */}
+          <div style={{
+            padding: '6px 16px',
+            background: 'var(--bg-app)',
+            borderBottom: '1px solid var(--border-subtle)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '8px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.76rem', fontWeight: '700', color: 'var(--primary)' }}>
+              <Wand2 size={13} />
+              <span>Gemini AI:</span>
             </div>
+
+            <div style={{ display: 'flex', gap: '6px', overflowX: 'auto' }}>
+              <button
+                type="button"
+                onClick={() => handleApplyAiTransformation('polish')}
+                disabled={aiTransforming || !body}
+                className="btn-secondary"
+                style={{ padding: '3px 8px', fontSize: '0.74rem' }}
+              >
+                <Sparkles size={11} color="var(--primary)" /> Polish
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleApplyAiTransformation('shorten')}
+                disabled={aiTransforming || !body}
+                className="btn-secondary"
+                style={{ padding: '3px 8px', fontSize: '0.74rem' }}
+              >
+                <Scissors size={11} /> Shorten
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleApplyAiTransformation('expand')}
+                disabled={aiTransforming || !body}
+                className="btn-secondary"
+                style={{ padding: '3px 8px', fontSize: '0.74rem' }}
+              >
+                <Maximize2 size={11} /> Expand
+              </button>
+            </div>
+
+            {previousDrafts.length > 0 && (
+              <button
+                type="button"
+                onClick={handleUndo}
+                style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', padding: 0 }}
+                title="Undo AI edit"
+              >
+                <Undo2 size={14} />
+              </button>
+            )}
+          </div>
+
+          {/* Body Textarea */}
+          <div style={{ flex: 1, padding: '12px 16px', display: 'flex', flexDirection: 'column' }}>
             <textarea
               required
-              rows={7}
               value={body}
               onChange={(e) => setBody(e.target.value)}
-              placeholder="Compose email text..."
+              placeholder="Type your message..."
               style={{
+                flex: 1,
                 width: '100%',
-                padding: '10px 12px',
-                borderRadius: 'var(--radius-sm)',
-                background: 'var(--bg-input)',
-                border: '1px solid var(--border-subtle)',
+                background: 'transparent',
+                border: 'none',
                 color: 'var(--text-main)',
                 outline: 'none',
-                fontFamily: 'inherit',
-                fontSize: '0.86rem',
-                lineHeight: '1.5',
-                resize: 'vertical'
+                fontFamily: 'var(--font-gmail)',
+                fontSize: '0.9rem',
+                lineHeight: '1.6',
+                resize: 'none'
               }}
             />
-
-            {/* AI Assistant Composer Action Bar */}
-            <div style={{
-              marginTop: '8px',
-              padding: '8px 10px',
-              background: 'var(--bg-app)',
-              border: '1px solid var(--border-subtle)',
-              borderRadius: '6px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '6px'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--primary)', fontSize: '0.75rem', fontWeight: '700' }}>
-                <Wand2 size={13} />
-                <span>AI Refine:</span>
-              </div>
-
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                <button
-                  type="button"
-                  onClick={() => handleApplyAiTransformation('polish')}
-                  disabled={aiTransforming || !body}
-                  style={{
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    background: 'var(--bg-panel)',
-                    border: '1px solid var(--border-subtle)',
-                    color: 'var(--text-main)',
-                    fontSize: '0.74rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px'
-                  }}
-                  title="Fix grammar and enhance clarity"
-                >
-                  <Sparkles size={11} color="var(--primary)" /> Polish & Grammar
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleApplyAiTransformation('shorten')}
-                  disabled={aiTransforming || !body}
-                  style={{
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    background: 'var(--bg-panel)',
-                    border: '1px solid var(--border-subtle)',
-                    color: 'var(--text-main)',
-                    fontSize: '0.74rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px'
-                  }}
-                  title="Make draft concise"
-                >
-                  <Scissors size={11} color="var(--status-medium)" /> Shorten
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleApplyAiTransformation('expand')}
-                  disabled={aiTransforming || !body}
-                  style={{
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    background: 'var(--bg-panel)',
-                    border: '1px solid var(--border-subtle)',
-                    color: 'var(--text-main)',
-                    fontSize: '0.74rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px'
-                  }}
-                  title="Elaborate with professional context"
-                >
-                  <Maximize2 size={11} color="var(--status-info)" /> Expand
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleApplyAiTransformation('formalize')}
-                  disabled={aiTransforming || !body}
-                  style={{
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    background: 'var(--bg-panel)',
-                    border: '1px solid var(--border-subtle)',
-                    color: 'var(--text-main)',
-                    fontSize: '0.74rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px'
-                  }}
-                  title="Formal business vocabulary"
-                >
-                  <Briefcase size={11} color="var(--primary)" /> Make Formal
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handleApplyAiTransformation('friendly')}
-                  disabled={aiTransforming || !body}
-                  style={{
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    background: 'var(--bg-panel)',
-                    border: '1px solid var(--border-subtle)',
-                    color: 'var(--text-main)',
-                    fontSize: '0.74rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px'
-                  }}
-                  title="Warm and friendly conversational tone"
-                >
-                  <Smile size={11} color="var(--status-low)" /> Make Friendly
-                </button>
-              </div>
-            </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '6px', position: 'relative' }}>
-            <button type="button" className="btn-secondary" onClick={onClose}>
-              Cancel
-            </button>
-            
+          {/* Gmail Bottom Action Toolbar */}
+          <div style={{
+            padding: '10px 16px',
+            borderTop: '1px solid var(--border-subtle)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: 'var(--bg-panel)'
+          }}>
+            {/* Send Pill Button + Schedule Dropdown */}
             <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
               <button
                 type="submit"
-                className="btn-primary"
                 disabled={loading || aiTransforming}
-                style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0, borderRight: '1px solid rgba(255,255,255,0.2)' }}
+                className="btn-primary"
+                style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0, padding: '8px 20px' }}
               >
-                <Send size={14} /> Send Email
+                Send
               </button>
-              
+
               <button
                 type="button"
                 className="btn-primary"
                 onClick={() => setShowScheduleMenu(!showScheduleMenu)}
-                style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0, padding: '7px 8px' }}
-                title="Schedule email dispatch"
+                style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0, padding: '8px 8px', borderLeft: '1px solid rgba(255,255,255,0.3)' }}
+                title="Schedule send options"
               >
                 <ChevronDown size={14} />
               </button>
@@ -395,17 +292,17 @@ export const ComposeModal = ({ isOpen, onClose, onEmailSent, initialDraft = '', 
                 <div style={{
                   position: 'absolute',
                   bottom: '100%',
-                  right: 0,
-                  marginBottom: '6px',
-                  width: '210px',
+                  left: 0,
+                  marginBottom: '8px',
+                  width: '220px',
                   background: 'var(--bg-panel)',
                   border: '1px solid var(--border-subtle)',
-                  borderRadius: 'var(--radius-sm)',
+                  borderRadius: '12px',
                   boxShadow: 'var(--shadow-modal)',
                   zIndex: 200,
                   overflow: 'hidden'
                 }} className="animate-fade-in">
-                  <div style={{ padding: '6px 10px', fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-dim)', borderBottom: '1px solid var(--border-subtle)' }}>
+                  <div style={{ padding: '8px 12px', fontSize: '0.72rem', fontWeight: '700', color: 'var(--text-dim)', borderBottom: '1px solid var(--border-subtle)' }}>
                     SCHEDULE SEND
                   </div>
                   {[
@@ -420,28 +317,47 @@ export const ComposeModal = ({ isOpen, onClose, onEmailSent, initialDraft = '', 
                       style={{
                         width: '100%',
                         textAlign: 'left',
-                        padding: '8px 10px',
+                        padding: '10px 14px',
                         background: 'none',
                         border: 'none',
                         color: 'var(--text-main)',
-                        fontSize: '0.78rem',
+                        fontSize: '0.82rem',
                         cursor: 'pointer',
                         display: 'flex',
                         flexDirection: 'column'
                       }}
-                      onMouseEnter={(e) => e.currentTarget.style.background = 'var(--primary-light)'}
+                      onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-card-hover)'}
                       onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
                     >
                       <span style={{ fontWeight: '600' }}>{s.label}</span>
-                      <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>{s.time}</span>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{s.time}</span>
                     </button>
                   ))}
                 </div>
               )}
             </div>
+
+            {/* Formatting & Attachment Action Icons */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-dim)' }}>
+              <button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-dim)' }} title="Attach files">
+                <Paperclip size={18} />
+              </button>
+              <button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-dim)' }} title="Insert link">
+                <Link2 size={18} />
+              </button>
+              <button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-dim)' }} title="Insert photo">
+                <Image size={18} />
+              </button>
+              <button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-dim)' }} title="Confidential mode">
+                <Lock size={18} />
+              </button>
+              <button type="button" onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-dim)', marginLeft: '12px' }} title="Discard draft">
+                <Trash2 size={18} />
+              </button>
+            </div>
           </div>
         </form>
-      </div>
+      )}
     </div>
   );
 };

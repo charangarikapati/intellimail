@@ -35,6 +35,12 @@ async def root():
         "mode": "Demo Mode (High Fidelity)" if settings.is_demo_mode else "Live Mode (Connected to OAuth & AI APIs)"
     }
 
+@app.get("/api/system/firestore-status")
+async def get_firestore_status():
+    from firebase.firestore_service import FirestoreService
+    return FirestoreService.get_status()
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=settings.PORT, reload=True)
